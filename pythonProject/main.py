@@ -99,7 +99,8 @@ def game():
     run = True
     while run:
         miles += 1
-
+        if miles == 3000:
+            youwin()
 
 
         if road1 >= 700:
@@ -283,6 +284,43 @@ def about():
         pygame.display.update()
         mainClock.tick(60)
 
+def youwin():
+    click = False
+    run = True
+    pygame.mixer.music.stop()
+    mixer.music.load("crash.wav")
+    mixer.music.set_volume(0.1)
+    mixer.music.play()
+    while run:
+        win.fill((255, 255, 255))
+        draw_text('You Passed!!!', fontg, (0,0,0), win,50,80)
+        mx, my = pygame.mouse.get_pos()
+        mouse = pygame.mouse.get_pressed()
+        button_menu = pygame.Rect(150, 150, 180, 35)
+        button_play = pygame.Rect(150, 200, 180, 35)
+
+        if button_menu.collidepoint((mx,my )):
+            if click == True:
+               menu()
+        if button_play.collidepoint((mx,my )):
+            if click == True:
+               game()
+        pygame.draw.rect(win, (255, 245, 215),button_menu)
+        pygame.draw.rect(win, (255, 245, 215),button_play)
+        draw_text('Menu', fontg, (0,0,0), win,200,153)
+        draw_text('Play Again', fontg, (0,0,0), win,172,205)
+        for event in pygame.event.get():
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+            if event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    click = False
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        pygame.display.update()
+        mainClock.tick(60)
 
 menu()
 
